@@ -41,7 +41,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+<<<<<<< HEAD
         //scrolView.contentSize = CGSize(width: self.view.bounds.width, height: self.view.bounds.height)
+=======
+        scrolView.contentSize = CGSize(width: self.view.bounds.width, height: self.view.bounds.height)
+>>>>>>> logIn_Interface
     }
 
     override func viewWillDisappear(_ animated: Bool) {
