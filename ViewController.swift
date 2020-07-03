@@ -40,6 +40,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrolView.contentSize = CGSize(width: self.view.bounds.width, height: self.view.bounds.height)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
