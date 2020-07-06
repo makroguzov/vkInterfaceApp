@@ -11,6 +11,8 @@ import UIKit
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var scrolView: UIScrollView!
+    @IBOutlet weak var loginField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -47,5 +49,12 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    @IBAction func login(_ sender: UIButton) {
+        guard let loginText = loginField.text else { return }
+        guard let passwordText = passwordField.text else {
+            return
+        }
+        performSegue(withIdentifier: "loginSegue", sender: self)
+    }
 }
 
