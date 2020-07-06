@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QEq-UL-0Qn">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="rpV-Wv-2Nu">
+            <objects>
+                <viewController id="QEq-UL-0Qn" customClass="LoginViewController" customModule="vkInterfaceApp" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l8c-q7-AXk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HbM-uO-zw9">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CF8-2b-Ui8">
+                                        <rect key="frame" x="184" y="559" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hjd-Nq-HqJ">
+                                        <rect key="frame" x="184" y="617" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QW8-SG-CQI">
+                                        <rect key="frame" x="107" y="304" width="200" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="IVg-Zt-fuW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ybj-qM-fTQ">
+                                        <rect key="frame" x="107" y="378" width="200" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vk_logo" translatesAutoresizingMaskIntoConstraints="NO" id="o4u-Ok-Lxn">
+                                        <rect key="frame" x="157" y="109" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="0Ov-9L-kW2"/>
+                                            <constraint firstAttribute="width" constant="100" id="Kjl-4z-GFE"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="hjd-Nq-HqJ" secondAttribute="bottom" constant="171" id="0FI-PX-h3X"/>
+                                    <constraint firstItem="hjd-Nq-HqJ" firstAttribute="centerX" secondItem="CF8-2b-Ui8" secondAttribute="centerX" id="8Zb-Mv-Ktz"/>
+                                    <constraint firstItem="hjd-Nq-HqJ" firstAttribute="top" secondItem="CF8-2b-Ui8" secondAttribute="bottom" constant="28" id="9Et-X2-xHM"/>
+                                    <constraint firstItem="o4u-Ok-Lxn" firstAttribute="centerX" secondItem="HbM-uO-zw9" secondAttribute="centerX" id="AEf-kx-DTm"/>
+                                    <constraint firstItem="QW8-SG-CQI" firstAttribute="centerX" secondItem="o4u-Ok-Lxn" secondAttribute="centerX" id="F2g-kY-O8y"/>
+                                    <constraint firstItem="QW8-SG-CQI" firstAttribute="top" secondItem="o4u-Ok-Lxn" secondAttribute="bottom" constant="95" id="XSS-dh-KWC"/>
+                                    <constraint firstItem="CF8-2b-Ui8" firstAttribute="centerX" secondItem="Ybj-qM-fTQ" secondAttribute="centerX" id="Xfp-q6-rfV"/>
+                                    <constraint firstItem="Ybj-qM-fTQ" firstAttribute="centerX" secondItem="QW8-SG-CQI" secondAttribute="centerX" id="d2V-sm-MoD"/>
+                                    <constraint firstItem="CF8-2b-Ui8" firstAttribute="top" secondItem="Ybj-qM-fTQ" secondAttribute="bottom" constant="147" id="ek1-pH-P29"/>
+                                    <constraint firstAttribute="trailing" secondItem="o4u-Ok-Lxn" secondAttribute="trailing" constant="157" id="gcv-Sx-aIz"/>
+                                    <constraint firstItem="Ybj-qM-fTQ" firstAttribute="width" secondItem="QW8-SG-CQI" secondAttribute="width" id="wHa-md-gtq"/>
+                                    <constraint firstItem="Ybj-qM-fTQ" firstAttribute="top" secondItem="QW8-SG-CQI" secondAttribute="bottom" constant="40" id="yeQ-sO-oZJ"/>
+                                    <constraint firstItem="o4u-Ok-Lxn" firstAttribute="top" secondItem="HbM-uO-zw9" secondAttribute="top" constant="109" id="yhe-j7-9f3"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="nRq-AB-nJq"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="gg9-F7-Viv"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="THW-1j-hOy" firstAttribute="bottom" secondItem="HbM-uO-zw9" secondAttribute="bottom" id="Rla-ke-dDv"/>
+                            <constraint firstItem="HbM-uO-zw9" firstAttribute="top" secondItem="THW-1j-hOy" secondAttribute="top" id="bUT-Pp-AMg"/>
+                            <constraint firstItem="THW-1j-hOy" firstAttribute="trailing" secondItem="HbM-uO-zw9" secondAttribute="trailing" id="cch-gs-roL"/>
+                            <constraint firstItem="HbM-uO-zw9" firstAttribute="leading" secondItem="THW-1j-hOy" secondAttribute="leading" id="jv2-HD-Ha9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="THW-1j-hOy"/>
+                    </view>
+                    <connections>
+                        <outlet property="scrolView" destination="HbM-uO-zw9" id="ORe-MN-8q8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="917-nO-cgx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="81.696428571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="vk_logo" width="149" height="151"/>
+    </resources>
+</document>
