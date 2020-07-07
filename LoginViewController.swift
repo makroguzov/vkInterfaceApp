@@ -56,7 +56,6 @@ class LoginViewController: UIViewController {
         return false
     }
     
-    
     func loginCheck() -> Bool {
         guard let loginText = loginField.text else { return  false }
         guard let passwordText = passwordField.text else { return false}
@@ -64,8 +63,15 @@ class LoginViewController: UIViewController {
         if loginText == "admin", passwordText == "12345" {
             return true
         } else {
+            showLoginError()
             return false
         }
+    }
+    
+    func showLoginError() {
+        let alert = UIAlertController(title: "Ошибка!", message: "Введен неверный логин или пароль", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
