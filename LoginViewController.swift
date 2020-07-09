@@ -51,7 +51,13 @@ class LoginViewController: UIViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "loginSegue" {
-            return loginCheck()
+            guard loginCheck() else {
+                return false
+            }
+            
+            fillInCurentUser()
+            
+            return true
         }
         return false
     }
@@ -72,6 +78,21 @@ class LoginViewController: UIViewController {
         let alert = UIAlertController(title: "Ошибка!", message: "Введен неверный логин или пароль", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+
+    func fillInCurentUser() {
+        User.curentUser.myGroups =  [
+               Group(groupName: "1"),
+               Group(groupName: "2"),
+               Group(groupName: "3"),
+               Group(groupName: "4"),
+               Group(groupName: "5"),
+               Group(groupName: "6"),
+               Group(groupName: "7"),
+               Group(groupName: "8"),
+               Group(groupName: "9"),
+               Group(groupName: "10")
+           ]
     }
 }
 

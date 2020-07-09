@@ -11,29 +11,17 @@ import UIKit
 class MyGroupsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var myGroups: [Group] = [
-        Group(groupName: "1"),
-        Group(groupName: "2"),
-        Group(groupName: "3"),
-        Group(groupName: "4"),
-        Group(groupName: "5"),
-        Group(groupName: "6"),
-        Group(groupName: "7"),
-        Group(groupName: "8"),
-        Group(groupName: "9"),
-        Group(groupName: "10")
-    ]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
 extension MyGroupsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myGroups.count
+        return User.curentUser.myGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,7 +29,7 @@ extension MyGroupsViewController: UITableViewDataSource {
             fatalError()
         }
         
-        let currGroup = myGroups[indexPath.row]
+        let currGroup = User.curentUser.myGroups[indexPath.row]
         
         group.groupImage?.image = currGroup.image
         group.groupName.text = currGroup.groupName
@@ -51,13 +39,39 @@ extension MyGroupsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            myGroups.remove(at: indexPath.row)
-            
+            User.curentUser.myGroups.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 }
 
 extension MyGroupsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
+            fatalError()
+        }
+        
+        if group.isSelected {
+            group.groupImage.backgroundColor = .black
+            tableView.deselectRow(at: indexPath, animated: false)
+            return nil
+        }
+    
+        return indexPath
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
+            fatalError()
+        }
+        group.groupImage.backgroundColor = .white
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
+            fatalError()
+        }
+        group.groupImage.backgroundColor = .black
+    }
     
 }

@@ -13,12 +13,12 @@ class Group {
     var groupName: String
     var image: UIImage?
         
-    init(groupName: String){
+    init(groupName: String) {
         self.groupName = groupName
         image = UIImage(systemName: "person")
     }
     
-    convenience init(groupName: String, image: UIImage){
+    convenience init(groupName: String, image: UIImage) {
         self.init(groupName: groupName)
     
         self.image = image

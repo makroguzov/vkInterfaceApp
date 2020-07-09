@@ -9,12 +9,15 @@
 import UIKit
 
 class User{
-    static var curentUser = User()
+    static let curentUser = User()
     
     var name: String
     var surname: String
     
     var image: UIImage?
+    
+    var myGroups: [Group] = []
+    var myFriends: [User] = []
     
     var fullName: String {
         "\(name) \(surname)"

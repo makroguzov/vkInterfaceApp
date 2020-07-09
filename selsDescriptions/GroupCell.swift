@@ -10,11 +10,11 @@ import UIKit
 
 class GroupCell: UITableViewCell {
     @IBOutlet weak var groupName: UILabel!
-    @IBOutlet weak var groupImage: UIImageView?
-
+    @IBOutlet weak var groupImage: UIImageView!
+    
     override func awakeFromNib() {
-        groupImage?.backgroundColor = .black
-        groupImage?.layer.cornerRadius = 40
+        groupImage.backgroundColor = .black
+        groupImage.layer.cornerRadius = groupImage.frame.size.width / 2
     }
     
 }
