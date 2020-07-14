@@ -77,6 +77,7 @@ class LoginViewController: UIViewController {
     func showLoginError() {
         let alert = UIAlertController(title: "Ошибка!", message: "Введен неверный логин или пароль", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        
         self.present(alert, animated: true, completion: nil)
     }
 

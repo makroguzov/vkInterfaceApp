@@ -9,13 +9,29 @@
 import UIKit
 
 class MyGroupsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = 100
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
+
+        self.view.addSubview(tableView)    
+        self.tableView.register(GroupCell.self, forCellReuseIdentifier: "MyGroupCell")
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+            
+        tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
     }
 }
 
@@ -31,7 +47,7 @@ extension MyGroupsViewController: UITableViewDataSource {
         
         let currGroup = User.curentUser.myGroups[indexPath.row]
         
-        group.groupImage?.image = currGroup.image
+        group.groupImage.image = currGroup.image
         group.groupName.text = currGroup.groupName
         
         return group
@@ -73,5 +89,4 @@ extension MyGroupsViewController: UITableViewDelegate {
         }
         group.groupImage.backgroundColor = .black
     }
-    
 }
