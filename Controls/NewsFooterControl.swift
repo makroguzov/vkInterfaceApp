@@ -1,5 +1,5 @@
 //
-//  NewsFooterControl.swift
+//  NewsFooterCell.swift
 //  vkInterfaceApp
 //
 //  Created by MACUSER on 14.07.2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsFooterControl: UIControl {
+class NewsFooterCell: UIControl {
     private var isUserPutLike: Bool = false {
         didSet {
             likeButton.isSelected = isUserPutLike

@@ -6,7 +6,7 @@
 //  Copyright © 2020 MACUSER. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class NewsCell: UITableViewCell {
     
