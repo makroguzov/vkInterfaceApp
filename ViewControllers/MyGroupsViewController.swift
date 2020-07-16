@@ -9,12 +9,15 @@
 import UIKit
 
 class MyGroupsViewController: UIViewController {
+    private var isRowSelected: Bool = false
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+        tableView.register(GroupCell.self, forCellReuseIdentifier: "MyGroupCell")
         return tableView
     }()
     
@@ -22,7 +25,6 @@ class MyGroupsViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.addSubview(tableView)    
-        self.tableView.register(GroupCell.self, forCellReuseIdentifier: "MyGroupCell")
     }
     
     override func updateViewConstraints() {
@@ -45,6 +47,8 @@ extension MyGroupsViewController: UITableViewDataSource {
             fatalError()
         }
         
+        print(indexPath.row)
+        
         let currGroup = User.curentUser.myGroups[indexPath.row]
         
         group.groupImage.image = currGroup.image
@@ -62,31 +66,10 @@ extension MyGroupsViewController: UITableViewDataSource {
 }
 
 extension MyGroupsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
-            fatalError()
-        }
-        
-        if group.isSelected {
-            group.groupImage.backgroundColor = .black
-            tableView.deselectRow(at: indexPath, animated: false)
-            return nil
-        }
-    
-        return indexPath
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
             fatalError()
         }
-        group.groupImage.backgroundColor = .white
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
-            fatalError()
-        }
-        group.groupImage.backgroundColor = .black
+        print("df")
     }
 }
