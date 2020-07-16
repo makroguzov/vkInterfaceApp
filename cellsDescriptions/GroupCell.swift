@@ -17,27 +17,34 @@ class GroupCell: UITableViewCell {
     
     lazy var baseView: UIView = {
         let baseView = UIView()
+        
         baseView.backgroundColor = UIColor.clear
+        
         baseView.layer.shadowColor = UIColor.yellow.cgColor
         baseView.layer.shadowOffset = CGSize(width: 3, height: 3)
         baseView.layer.shadowOpacity = 0.7
         baseView.layer.shadowRadius = 6
+        
         return baseView
     }()
     
     lazy var borderView: UIView = {
         let borderView = UIView()
+        
         borderView.layer.borderColor = UIColor.green.cgColor
         borderView.layer.borderWidth = 3
         borderView.layer.masksToBounds = true
+        
         return borderView
     }()
     
     lazy var groupName: UILabel = {
         let groupName = UILabel()
+        
         groupName.backgroundColor = .clear
         groupName.textColor = .green
         groupName.translatesAutoresizingMaskIntoConstraints = false
+        
         return groupName
     }()
     
@@ -57,18 +64,7 @@ class GroupCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
         
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
     func createViews() {
         let borderSpacing: CGFloat = 10
         

@@ -1,5 +1,5 @@
 //
-//  NewsFooterCell.swift
+//  NewsFooterControl.swift
 //  vkInterfaceApp
 //
 //  Created by MACUSER on 14.07.2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsFooterCell: UIControl {
+class NewsFooterControl: UIControl {
     private var isUserPutLike: Bool = false {
         didSet {
             likeButton.isSelected = isUserPutLike
@@ -80,8 +80,6 @@ class NewsFooterCell: UIControl {
         likeLable.text = String(countOfLikes)
     }
   
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
     override init(frame: CGRect) {
         super.init(frame: frame)
         
