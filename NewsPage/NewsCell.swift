@@ -10,5 +10,11 @@ import Foundation
 
 class NewsCell: UITableViewCell {
     
+    func addFooter(frame: CGRect) {
+        let footer = FooterControl(frame: frame)
+        addSubview(footer)
+    }
 }
+
+
 

@@ -34,45 +34,34 @@ class MyNewsViewController: UIViewController {
         view.addSubview(tableView)
     }
 
+    func customize(_ cell: NewsCell) {
+        cell.addFooter(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+    }
 }
 
 extension MyNewsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 10
+        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
             
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let newsCell = tableView.dequeueReusableCell(withIdentifier: "MyNewsCell") as? NewsCell else {
-//            fatalError()
-//        }
-        
-        let newsCell = UITableViewCell()
-        
-        switch indexPath.row {
-        case 0:
-            return newsCell
-        default:
-            let footer = NewsFooterControl(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 40))
-
-            newsCell.contentView.addSubview(footer)
-            
-            return newsCell
+        guard let newsCell = tableView.dequeueReusableCell(withIdentifier: "MyNewsCell") as? NewsCell else {
+            fatalError()
         }
+        
+        customize(newsCell)
+        
+        return newsCell
     }
 }
 
 extension MyNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
-            return UITableView.automaticDimension
-        default:
-            return 40
-        }
+        return 100 //UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
