@@ -1,5 +1,5 @@
 //
-//  NewsFooterControl.swift
+//  FooterControl.swift
 //  vkInterfaceApp
 //
 //  Created by MACUSER on 14.07.2020.
@@ -8,16 +8,17 @@
 
 import UIKit
 
-class NewsFooterControl: UIControl {
+class FooterControl: UIControl {
     private var isUserPutLike: Bool = false {
         didSet {
             likeButton.isSelected = isUserPutLike
         }
     }
     
-    lazy private var stackView: UIStackView = {
-        let stackView = UIStackView()
-        return stackView
+    lazy private var view: UIView = {
+        let view = UIView()
+        view.bounds = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 40)
+        return view
     }()
     
     lazy private var likeButton: UIButton = {
@@ -28,7 +29,6 @@ class NewsFooterControl: UIControl {
         
         likeButton.addTarget(self, action: #selector(likeButtonAction(_ :)), for: .touchUpInside)
         
-        likeButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         return likeButton
     }()
@@ -85,16 +85,15 @@ class NewsFooterControl: UIControl {
         
         //contentView.
         addSubview(stackView)
-        
+        putConstraints()
+
         
         let views: [UIView] = [likeButton, likeLable, commentButton, commentLable, shareButton]
         for view in views {
-            stackView.addSubview(view)
+            stackView.addArrangedSubview(view)
         }
         
         self.backgroundColor = .white
-        
-        putConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -105,14 +104,23 @@ class NewsFooterControl: UIControl {
         super.layoutSubviews()
         
         stackView.frame = bounds
+        
     }
     
     func putConstraints() {
         let elementSpacing: CGFloat = 40
         let elemeentWithLableSpacing: CGFloat = 5
         
-        likeButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        likeButton.centerYAnchor.constraint(equalTo: self.stackView.centerYAnchor).isActive = true
+        //likeButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        //likeButton.centerYAnchor.constraint(equalTo: self.stackView.centerYAnchor).isActive = true
+        let likeButtonConstraints = [
+            leftAnchor.constraint(equalTo: stackView.leftAnchor, constant: 10),
+            topAnchor.constraint(equalTo: stackView.topAnchor, constant: 0),
+            bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
+            widthAnchor.constraint(equalToConstant: 40)
+        ]
+        
+        likeButton.addConstraints(likeButtonConstraints)
         
         
         likeLable.leftAnchor.constraint(equalTo: likeButton.rightAnchor, constant: elemeentWithLableSpacing).isActive = true
@@ -123,6 +131,7 @@ class NewsFooterControl: UIControl {
         
         commentLable.leftAnchor.constraint(equalTo: commentButton.rightAnchor, constant: elemeentWithLableSpacing).isActive = true
         commentLable.centerYAnchor.constraint(equalTo: self.stackView.centerYAnchor).isActive = true
+ 
         
         shareButton.leftAnchor.constraint(equalTo: commentLable.rightAnchor, constant: elementSpacing).isActive = true
         shareButton.centerYAnchor.constraint(equalTo: self.stackView.centerYAnchor).isActive = true
