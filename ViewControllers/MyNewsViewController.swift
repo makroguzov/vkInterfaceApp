@@ -11,7 +11,10 @@ import UIKit
 class MyNewsViewController: UIViewController {
     private let cellSpacingHeight: CGFloat = 8
     private let footerHeigth: CGFloat = 30
+    
+    
     var news: [Int] = []
+    
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -35,7 +38,15 @@ class MyNewsViewController: UIViewController {
     }
 
     func customize(_ cell: NewsCell) {
-        cell.addFooter(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+        let contentView = cell.contentView
+        
+        let footer = cell.getFooter()
+        contentView.addSubview(footer)
+        
+        footer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
+        footer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
+        footer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+        footer.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }
 
@@ -61,12 +72,16 @@ extension MyNewsViewController: UITableViewDataSource {
 
 extension MyNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100 //UITableView.automaticDimension
+        let cellHeight: CGFloat = 100
+            
+        return cellHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
+        
         headerView.backgroundColor = .none
+        
         return headerView
     }
     
