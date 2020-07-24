@@ -40,13 +40,26 @@ class MyNewsViewController: UIViewController {
     func customize(_ cell: NewsCell) {
         let contentView = cell.contentView
         
-        let footer = cell.getFooter()
-        contentView.addSubview(footer)
+        let postDescriptionViewHeight: CGFloat = 60
         
-        footer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-        footer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-        footer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
-        footer.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        let postDescriptionView: UIView = cell.getPostDescriptionViewWith(frame: contentView.bounds, image: nil , name: "группа", time: "10:00")
+        contentView.addSubview(postDescriptionView)
+
+        //let footer = cell.getFooter()
+        //contentView.addSubview(footer)
+        
+        postDescriptionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
+        postDescriptionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
+        postDescriptionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+        postDescriptionView.heightAnchor.constraint(equalToConstant: postDescriptionViewHeight).isActive = true
+    
+//        let footerHeight: CGFloat = 40
+//
+//        footer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
+//        footer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
+//        footer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+//        footer.heightAnchor.constraint(equalToConstant: footerHeight).isActive = true
+//        footer.topAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: 60).isActive = true
     }
 }
 
@@ -72,9 +85,9 @@ extension MyNewsViewController: UITableViewDataSource {
 
 extension MyNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellHeight: CGFloat = 100
+        //let cellHeight: CGFloat = 100
             
-        return cellHeight
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

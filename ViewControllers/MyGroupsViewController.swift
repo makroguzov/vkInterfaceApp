@@ -70,6 +70,5 @@ extension MyGroupsViewController: UITableViewDelegate {
         guard let group = tableView.cellForRow(at: indexPath) as? GroupCell else {
             fatalError()
         }
-        print("df")
     }
 }
