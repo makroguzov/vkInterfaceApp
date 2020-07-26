@@ -12,10 +12,9 @@ class MyNewsViewController: UIViewController {
     private let cellSpacingHeight: CGFloat = 8
     private let footerHeigth: CGFloat = 30
     
-    
+    var newsData: [Int] = []
     var news: [NewsCell] = []
-    
-    
+        
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         
@@ -78,7 +77,7 @@ extension MyNewsViewController: UITableViewDelegate {
             $0 + $1.frame.height
         }
         
-        return rowHeight //UITableView.automaticDimension
+        return rowHeight 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
