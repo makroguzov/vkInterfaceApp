@@ -51,6 +51,10 @@ extension MyNewsViewController: UITableViewDataSource {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: "MyNewsCell") as? NewsCell else {
             fatalError()
         }
+        
+        if indexPath.section < news.count {
+            return news[indexPath.section]
+        }
                 
         let postText = "qweweff"
         let images = [UIImage(named: "vk_logo")]
@@ -61,11 +65,7 @@ extension MyNewsViewController: UITableViewDataSource {
         newsCell.customiseWith(postDescriptionData: postDescriptionDate, postText: postText, images: images)
         newsCell.putConstraintsTo()
         
-        if indexPath.section < news.count {
-            news[indexPath.section] = newsCell
-        } else {
-            news.append(newsCell)
-        }
+        news.append(newsCell)
         
         return newsCell
     }

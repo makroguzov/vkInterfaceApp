@@ -13,28 +13,33 @@ class MyGroupsViewController: UIViewController {
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        //tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.frame = view.frame
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
         tableView.rowHeight = 100
         tableView.register(GroupCell.self, forCellReuseIdentifier: "MyGroupCell")
+        
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(tableView)    
+        view.addSubview(tableView)
     }
     
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-            
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-        tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-    }
+//    override func updateViewConstraints() {
+//        super.updateViewConstraints()
+//
+//        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+//        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+//        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+//        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+//    }
 }
 
 extension MyGroupsViewController: UITableViewDataSource {
