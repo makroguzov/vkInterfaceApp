@@ -19,11 +19,31 @@ class MyGroupsViewController: UIViewController {
     private lazy var titles: [Character] = []
     private lazy var gropsFirstLeterMap: [Character: [Group]] = [:]
     
+    private var filteredGroups = [Group]()
+    private var searschBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isSearchStarted: Bool {
+        return searchController.isActive && !searschBarIsEmpty
+    }
+    private lazy var searchController: UISearchController = {
+        let serchController = UISearchController(searchResultsController: nil)
+        
+        serchController.searchResultsUpdater = self
+        serchController.obscuresBackgroundDuringPresentation = false
+        serchController.searchBar.placeholder = "поиск"
+        
+        return serchController
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         
         //tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.frame = view.frame
+        
+        //tableView.tableHeaderView = UISearchController(searchResultsController: nil)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -38,6 +58,9 @@ class MyGroupsViewController: UIViewController {
         super.viewDidLoad()
 
         createGropsFirstLeterMap()
+        
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         view.addSubview(tableView)
     }
@@ -61,10 +84,18 @@ class MyGroupsViewController: UIViewController {
 
 extension MyGroupsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
+        if isSearchStarted {
+            return 1
+        }
+        
         return gropsFirstLeterMap.count
     }
  
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearchStarted {
+            return filteredGroups.count
+        }
+        
         return gropsFirstLeterMap[titles[section]]?.count ?? 0
     }
     
@@ -73,11 +104,16 @@ extension MyGroupsViewController: UITableViewDataSource {
             fatalError()
         }
         
-        guard let sectionGroups = gropsFirstLeterMap[titles[indexPath.section]] else {
-            fatalError()
-        }
+        let currGroup: Group
         
-        let currGroup = sectionGroups[indexPath.row]
+        if isSearchStarted {
+            currGroup = filteredGroups[indexPath.row]
+        } else {
+            guard let sectionGroups = gropsFirstLeterMap[titles[indexPath.section]] else {
+                fatalError()
+            }
+            currGroup = sectionGroups[indexPath.row]
+        }
         
         group.groupImage.image = currGroup.image
         group.groupName.text = currGroup.groupName
@@ -104,5 +140,19 @@ extension MyGroupsViewController: UITableViewDataSource {
 extension MyGroupsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+}
+
+extension MyGroupsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        filteredGroups = groupsData.filter({ (group: Group) -> Bool in
+            return group.groupName.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
     }
 }
