@@ -36,36 +36,11 @@ class MyNewsViewController: UIViewController {
         
         view.addSubview(tableView)
     }
-
-    func customize(_ cell: NewsCell) {
-        let contentView = cell.contentView
-        
-        let postDescriptionViewHeight: CGFloat = 60
-        
-        let postDescriptionView: UIView = cell.getPostDescriptionViewWith(frame: contentView.bounds, image: nil , name: "группа", time: "10:00")
-        contentView.addSubview(postDescriptionView)
-
-        //let footer = cell.getFooter()
-        //contentView.addSubview(footer)
-        
-        postDescriptionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-        postDescriptionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-        postDescriptionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
-        postDescriptionView.heightAnchor.constraint(equalToConstant: postDescriptionViewHeight).isActive = true
-    
-//        let footerHeight: CGFloat = 40
-//
-//        footer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-//        footer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-//        footer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
-//        footer.heightAnchor.constraint(equalToConstant: footerHeight).isActive = true
-//        footer.topAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: 60).isActive = true
-    }
 }
 
 extension MyNewsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 5
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,8 +51,16 @@ extension MyNewsViewController: UITableViewDataSource {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: "MyNewsCell") as? NewsCell else {
             fatalError()
         }
+                
+        let postText = "qweweff"
+        let images = [UIImage(named: "vk_logo")]
+        let postDescriptionDate = NewsCell.DescriptionPostData(image: UIImage(named: "vk_logo"), name: "sdkjfnlkjf", postTime: "12:00")
         
-        customize(newsCell)
+        
+        newsCell.clean()
+        newsCell.customiseWith(postDescriptionData: postDescriptionDate, postText: postText, images: images)
+        newsCell.putConstraintsTo()
+        
         
         return newsCell
     }
@@ -85,9 +68,7 @@ extension MyNewsViewController: UITableViewDataSource {
 
 extension MyNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //let cellHeight: CGFloat = 100
-            
-        return UITableView.automaticDimension
+        return 400 //UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
