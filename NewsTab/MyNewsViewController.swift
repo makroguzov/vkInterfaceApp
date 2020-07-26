@@ -13,7 +13,7 @@ class MyNewsViewController: UIViewController {
     private let footerHeigth: CGFloat = 30
     
     
-    var news: [Int] = []
+    var news: [NewsCell] = []
     
     
     lazy var tableView: UITableView = {
@@ -61,6 +61,11 @@ extension MyNewsViewController: UITableViewDataSource {
         newsCell.customiseWith(postDescriptionData: postDescriptionDate, postText: postText, images: images)
         newsCell.putConstraintsTo()
         
+        if indexPath.section < news.count {
+            news[indexPath.section] = newsCell
+        } else {
+            news.append(newsCell)
+        }
         
         return newsCell
     }
@@ -68,7 +73,12 @@ extension MyNewsViewController: UITableViewDataSource {
 
 extension MyNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 400 //UITableView.automaticDimension
+        let cellViews = news[indexPath.section].contentView.subviews
+        let rowHeight = cellViews.reduce(0){
+            $0 + $1.frame.height
+        }
+        
+        return rowHeight //UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
