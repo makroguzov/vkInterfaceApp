@@ -14,6 +14,7 @@ import UIKit
 //если убрал frame (groupName.translatesAutoresizingMaskIntoConstraints = false) как узать размеры экрана (ячейки)
 
 class GroupCell: UITableViewCell {
+    var cellHeight: CGFloat = 0
     
     lazy var baseView: UIView = {
         let baseView = UIView()
@@ -52,6 +53,14 @@ class GroupCell: UITableViewCell {
         let groupImage: UIImageView = UIImageView()
         groupImage.image = UIImage(named: "person")
         groupImage.backgroundColor = .white
+        
+        
+        let tapGesrure: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(animateTapGesture))
+        groupImage.addGestureRecognizer(tapGesrure)
+        
+        groupImage.isUserInteractionEnabled = true
+              
+        
         return groupImage
     }()
     
@@ -65,10 +74,10 @@ class GroupCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func createViews() {
+    private func createViews() {
         let borderSpacing: CGFloat = 10
         
-        baseView.frame = CGRect(x: borderSpacing, y: borderSpacing, width: 80, height: 80)
+        baseView.frame = CGRect(x: borderSpacing, y: borderSpacing, width: 60, height: 60)
         contentView.addSubview(baseView)
 
         borderView.frame = baseView.bounds
@@ -84,5 +93,28 @@ class GroupCell: UITableViewCell {
         groupName.leftAnchor.constraint(equalTo: baseView.rightAnchor, constant: borderSpacing).isActive = true
         groupName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -borderSpacing).isActive = true
         groupName.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        cellHeight = baseView.frame.height + 2 * borderSpacing
+    }
+    
+    @objc private func animateTapGesture() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue =  1
+        animation.toValue = 0.9
+        animation.duration = 0.1
+        animation.fillMode = .removed
+  
+        self.baseView.layer.add(animation, forKey: nil)
+    }
+    
+    @objc private func animateLongPressGesture() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = 1.0
+        animation.toValue = 0.9
+        animation.duration = 0.1
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        
+        self.baseView.layer.add(animation, forKey: nil)
     }
 }

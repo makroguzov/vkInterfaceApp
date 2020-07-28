@@ -12,9 +12,9 @@ class MyGroupsViewController: UIViewController {
     private var isRowSelected: Bool = false
     
     private lazy var groupsData: [Group] = {
-        let groups = User.curentUser.myGroups
-        return groups
+        return User.curentUser.myGroups
     }()
+    private var groupsCells: [Character: [GroupCell]] = [:]
     
     private lazy var titles: [Character] = []
     private lazy var gropsFirstLeterMap: [Character: [Group]] = [:]
@@ -40,10 +40,7 @@ class MyGroupsViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         
-        //tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.frame = view.frame
-        
-        //tableView.tableHeaderView = UISearchController(searchResultsController: nil)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -78,7 +75,7 @@ class MyGroupsViewController: UIViewController {
             }
         }
        
-        titles = Array(gropsFirstLeterMap.keys)
+        titles = Array(gropsFirstLeterMap.keys).sorted(by: <)
     }
 }
 
@@ -118,14 +115,38 @@ extension MyGroupsViewController: UITableViewDataSource {
         group.groupImage.image = currGroup.image
         group.groupName.text = currGroup.groupName
         
+        if groupsCells[titles[indexPath.section]] != nil {
+            groupsCells[titles[indexPath.section]]?.append(group)
+        } else {
+            groupsCells[titles[indexPath.section]] = [group]
+        }
+        
         return group
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            User.curentUser.myGroups.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            switch gropsFirstLeterMap[titles[indexPath.section]]?.count {
+            case 1:
+                gropsFirstLeterMap.removeValue(forKey: titles[indexPath.section])
+                groupsCells.removeValue(forKey: titles[indexPath.section])
+                titles.remove(at: indexPath.section)
+                tableView.deleteSections([indexPath.section], with: .fade)
+            default:
+                gropsFirstLeterMap[titles[indexPath.section]]?.remove(at: indexPath.row)
+                groupsCells[titles[indexPath.section]]?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let cell = groupsCells[titles[indexPath.section]]?[indexPath.row] else {
+            fatalError()
+        }
+        
+        return cell.cellHeight
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

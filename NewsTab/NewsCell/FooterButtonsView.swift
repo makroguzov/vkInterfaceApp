@@ -67,7 +67,12 @@ class FooterButtonsView: UIView {
             countOfLikes += 1
         }
         
-        likeLable.text = String(countOfLikes)
+        UIView.transition(with: likeLable,
+                          duration: 1,
+                          options: .transitionFlipFromRight,
+                          animations: {
+            self.likeLable.text = String(countOfLikes)
+        })
     }
     
     private var isUserPutLike: Bool = false {
