@@ -17,6 +17,7 @@ class GroupCell: UITableViewCell {
     @IBOutlet weak var groupNameLable: UILabel!
     @IBOutlet weak var groupSubTitleLable: UILabel!
     
+    
     var model: GroupCellModel = .emptyState {
         didSet{
             groupImageView.image = model.image
