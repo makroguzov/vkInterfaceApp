@@ -6,4 +6,16 @@
 //  Copyright © 2020 MACUSER. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+struct FriendsCellModel {
+    var image: UIImage
+    var name: String
+    var subtitle: String
+}
+
+extension FriendsCellModel {
+    static var emptyState: FriendsCellModel {
+        return FriendsCellModel(image: UIImage(), name: "", subtitle: "")
+    }
+}

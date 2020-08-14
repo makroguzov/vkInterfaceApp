@@ -1,5 +1,5 @@
 //
-//  GroupModel.swift
+//  GroupCellModel.swift
 //  vkInterfaceApp
 //
 //  Created by MACUSER on 11.08.2020.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-struct GroupModel {
-    var imageData: Data
+struct GroupCellModel {
+    var image: UIImage
     var groupName: String
     var groupSubtitle: String
 }
 
-extension GroupModel {
-    static var emptyState: GroupModel {
-        return GroupModel(imageData: Data(), groupName: "", groupSubtitle: "")
+extension GroupCellModel {
+    static var emptyState: GroupCellModel {
+        return GroupCellModel(image: UIImage(), groupName: "", groupSubtitle: "")
     }
 }
 
