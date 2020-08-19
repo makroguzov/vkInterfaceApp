@@ -21,26 +21,26 @@ class NetworkService {
         return session
     }()
     
-    func loadUserInfo(user_ids: String, fields: String, name_case: String, closure: @escaping ([UserModel]) -> Void) {
-        let baseUrl = "https://api.vk.com"
-        let path = "/method/users.get"
-        
-        let params: Parameters = [
-            "access_token": Session.shared.token,
-            "user_ids": user_ids,
-            "fields": fields,
-            "name_case" : name_case,
-            "v": "5.92"
-        ]
-        
-        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
-            guard let json = response.value else { return }
-            let  response = (json as! [String: Any])["response"] as! [Any]
-            
-            //let users = response.map { UserModel(json: $0 as! [String: Any]) }
-            //closure(users)
-        }
-    }
+//    func loadUserInfo(user_ids: String, fields: String, name_case: String, closure: @escaping ([UserModel]) -> Void) {
+//        let baseUrl = "https://api.vk.com"
+//        let path = "/method/users.get"
+//
+//        let params: Parameters = [
+//            "access_token": Session.shared.token,
+//            "user_ids": user_ids,
+//            "fields": fields,
+//            "name_case" : name_case,
+//            "v": "5.92"
+//        ]
+//
+//        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
+//            guard let json = response.value else { return }
+//            let  response = (json as! [String: Any])["response"] as! [Any]
+//
+//            //let users = response.map { UserModel(json: $0 as! [String: Any]) }
+//            //closure(users)
+//        }
+//    }
 
     func loadUserGroupInvitations(offset: Int, count: Int, extended: Int, complitoin: @escaping (UserGroupInvitationModel) -> Void) {
         let baseUrl = "https://api.vk.com"
@@ -62,13 +62,7 @@ class NetworkService {
                     print(err.localizedDescription)
             }
         }
-
-//        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
-//            guard let json = response.value else { return }
-//            print(json)
-//        }
     }
-
     
     func loadUserGroups(userId: String, extended: Int, filter: String, fields: String, offset: Int, count: Int,
      complitoin: @escaping (UserGroupsModel) -> Void) {

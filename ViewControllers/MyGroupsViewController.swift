@@ -36,7 +36,9 @@ extension MyGroupsViewController {
     }
     
     func getGroups(count: Int){
-        NetworkService.shared.loadUserGroups(userId: Session.shared.userId, extended: 1, filter: "", fields: "", offset: 0, count: count) { (userGroupModel) in
+        NetworkService.shared.loadUserGroups(userId: Session.shared.userId, extended: 1, filter: "", fields: "", offset: 0, count: count) { [weak self] (userGroupModel) in
+            guard let self = self else { return }
+            
             self.tableView.beginUpdates()
             
             let totalGroupsCount = userGroupModel.response.count
@@ -64,7 +66,9 @@ extension MyGroupsViewController {
     }
     
     func loadUserGroupInvitations() {
-        NetworkService.shared.loadUserGroupInvitations(offset: 0, count: 2, extended: 1) { (userGroupInvitationModel) in
+        NetworkService.shared.loadUserGroupInvitations(offset: 0, count: 2, extended: 1) { [weak self] (userGroupInvitationModel) in
+            guard let self = self else { return }
+            
             self.tableView.beginUpdates()
             
             let events = userGroupInvitationModel.response.events
