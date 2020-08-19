@@ -21,78 +21,6 @@ class NetworkService {
         return session
     }()
     
-    func loadGroups(userId: String, extended: Int, filter: String, fields: String, offset: Int, count: Int,
-                    closure: @escaping ([GroupModel], Int) -> Void) {
-        let baseUrl = "https://api.vk.com"
-        let path = "/method/groups.get"
-        
-        let params: Parameters = [
-            "access_token": Session.shared.token,
-            "user_id" : userId,
-            "extended": extended,
-            "filter" : filter,
-            "fields" : fields,
-            "offset" : offset,
-            "count" : count,
-            "v": "5.92"
-        ]
-        
-        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
-            guard let json = response.value else { return }
-            let  response = (json as! [String: Any])["response"] as! [String: Any]
-            
-            let totalCount = response["count"] as! Int
-            let groups = (response["items"] as! [[String: Any]]).map{GroupModel(json: $0)}
-            
-
-            closure(groups, totalCount)
-        }
-    }
-    
-    func loadGroupsInvitations(offset: Int, count: Int, extended: Int, closure: @escaping ([GroupInvitationModel]) -> Void) {
-        let baseUrl = "https://api.vk.com"
-        let path = "/method/groups.getInvites"
-        
-        let params: Parameters = [
-            "access_token": Session.shared.token,
-            "extended": extended,
-            "offset" : offset,
-            "count" : count,
-            "v": "5.92"
-        ]
-        
-        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
-            guard let json = response.value else { return }
-            let response = (json as! [String: Any])["response"] as! [String: Any]
- 
-            let ivents: [GroupInvitationModel] = (response["items"] as! [Any]).map{ GroupInvitationModel(json: $0 as! [String: Any]) }
-
-            
-            let groups: [Int: [GroupModel]] = Dictionary(grouping: (response["groups"] as! [Any]).map{ GroupModel(json: $0 as! [String: Any]) }){ $0.id }
-            let usersId: [String] = [Int](Dictionary(grouping: (response["profiles"] as! [Any]).map{ $0 as! [String: Any] }){ $0["id"] as! Int }.keys).map{ String($0) }
-                
-            
-            self.loadUserInfo(user_ids: usersId.joined(separator: ",") , fields: "photo_200", name_case: "") { usersArray in
-                let users = Dictionary(grouping: usersArray) { $0.id }
-                var preparedInvitations = [GroupInvitationModel]()
-   
-                for ivent in ivents {
-                    var preparedIvent = ivent
-                    
-                    if let invitor = groups[abs(ivent.invited_by)] {
-                        preparedIvent.invitor = GroupInvitationModel.Invitor(group: invitor[0])
-                    } else if let invitor = users[ivent.invited_by] {
-                        preparedIvent.invitor = GroupInvitationModel.Invitor(user: invitor[0])
-                    }
-                    
-                    preparedInvitations.append(preparedIvent)
-                }
-                
-                closure(preparedInvitations)
-            }
-        }
-    }
-    
     func loadUserInfo(user_ids: String, fields: String, name_case: String, closure: @escaping ([UserModel]) -> Void) {
         let baseUrl = "https://api.vk.com"
         let path = "/method/users.get"
@@ -109,12 +37,67 @@ class NetworkService {
             guard let json = response.value else { return }
             let  response = (json as! [String: Any])["response"] as! [Any]
             
-            let users = response.map { UserModel(json: $0 as! [String: Any]) }
-            closure(users)
+            //let users = response.map { UserModel(json: $0 as! [String: Any]) }
+            //closure(users)
         }
     }
 
-    func loadUserFriends(user_id: String, order: String, list_id: String, count: Int, offset: Int, fields: String, name_case: String, ref: String, compition: @escaping ([UserModel], Int) -> Void) {
+    func loadUserGroupInvitations(offset: Int, count: Int, extended: Int, complitoin: @escaping (UserGroupInvitationModel) -> Void) {
+        let baseUrl = "https://api.vk.com"
+        let path = "/method/groups.getInvites"
+    
+        let params: Parameters = [
+            "access_token": Session.shared.token,
+            "extended": extended,
+            "offset" : offset,
+            "count" : count,
+            "v": "5.92"
+        ]
+    
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseDecodable { (response: DataResponse<UserGroupInvitationModel, AFError>) in
+            switch response.result {
+                case .success(let userGroupInvitationModel):
+                    complitoin(userGroupInvitationModel)
+                case .failure(let err):
+                    print(err.localizedDescription)
+            }
+        }
+
+//        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
+//            guard let json = response.value else { return }
+//            print(json)
+//        }
+    }
+
+    
+    func loadUserGroups(userId: String, extended: Int, filter: String, fields: String, offset: Int, count: Int,
+     complitoin: @escaping (UserGroupsModel) -> Void) {
+        let baseUrl = "https://api.vk.com"
+        let path = "/method/groups.get"
+        
+        let params: Parameters = [
+            "access_token": Session.shared.token,
+            "user_id" : userId,
+            "extended": extended,
+            "filter" : filter,
+            "fields" : fields,
+            "offset" : offset,
+            "count" : count,
+            "v": "5.92"
+        ]
+
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseDecodable { (response: DataResponse<UserGroupsModel, AFError>) in
+            switch response.result {
+            case .success(let userGroupModel):
+                complitoin(userGroupModel)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+        
+    }
+    
+    func loadUserFriends(user_id: String, order: String, list_id: String, count: Int, offset: Int, fields: String, name_case: String, ref: String, complition: @escaping (UserFriendsModel) -> Void) {
         let baseUrl = "https://api.vk.com"
         let path = "/method/friends.get"
         
@@ -130,19 +113,19 @@ class NetworkService {
             "ref": ref,
             "v": "5.92"
         ]
-        
-        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { (response) in
-            guard let json = response.value else { return }
-            let  response = (json as! [String: Any])["response"] as! [String: Any]
 
-            let friendsAmount = response["count"] as! Int
-            let users = (response["items"] as! [Any]).map { UserModel(json: $0 as! [String: Any]) }
-            compition(users, friendsAmount)
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseDecodable() {
+            (response: DataResponse<UserFriendsModel, AFError>) in
+            
+            switch response.result {
+            case .success(let userFriendsModel):
+                complition(userFriendsModel)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
 }
-
-
 
 
 
@@ -259,3 +242,4 @@ class NetworkService {
 //            }
 //        }
 //    }
+

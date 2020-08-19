@@ -9,14 +9,20 @@
 import UIKit
 
 struct GroupCellModel {
-    var image: UIImage
+    var image: URL?
     var groupName: String
     var groupSubtitle: String
+
+    init(image: String?, groupName: String, groupSubtitle: String) {
+        self.image = URL(string: image ?? "")
+        self.groupName = groupName
+        self.groupSubtitle = groupSubtitle
+    }
 }
 
 extension GroupCellModel {
     static var emptyState: GroupCellModel {
-        return GroupCellModel(image: UIImage(), groupName: "", groupSubtitle: "")
+        return GroupCellModel(image: "", groupName: "", groupSubtitle: "")
     }
 }
 

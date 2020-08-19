@@ -21,18 +21,26 @@ class MyFriendsViewController: UITableViewController {
 
 extension MyFriendsViewController {
     func getInitData() {
-        tableView.beginUpdates()
         getFriends()
     }
     
     func getFriends() {
-        NetworkService.shared.loadUserFriends(user_id: Session.shared.userId, order: "hints", list_id: "", count: 2, offset: 0, fields: "photo_200_orig,city,bdate", name_case: "", ref: "") { (friends, friendsAmount) in
+        NetworkService.shared.loadUserFriends(user_id: Session.shared.userId,
+                                              order: "hints", list_id: "", count: 5,
+                                              offset: 0, fields: "photo_200_orig,city,bdate",
+                                              name_case: "", ref: "") {
+            (userFriendsModel) in
+            self.tableView.beginUpdates()
             
+            let friends = userFriendsModel.response.users
+            let friendsAmount = userFriendsModel.response.count
+            
+    
             let numberOfRows = self.friendCellModels.count
             self.tableView.insertRows(at: Array(numberOfRows ..< numberOfRows + friends.count).map { IndexPath(row: $0, section: 0) }, with: .automatic)
-
+            
             for friend in friends {
-                let model = FriendsCellModel(image: UIImage(data: try! Data(contentsOf: friend.photo_200_orig!)) ?? UIImage(), name: "\(friend.first_name) \(friend.last_name)", subtitle: "")
+                let model = FriendsCellModel(image: friend.photo_200_orig, name: friend.first_name, surename: friend.last_name, bdate: friend.bdate, city: friend.city)
                 self.friendCellModels.append(model)
             }
             

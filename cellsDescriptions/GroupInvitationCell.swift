@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class GroupInvitationCell: UITableViewCell {
     @IBOutlet weak var iventImageView: UIImageView! {
@@ -19,7 +20,6 @@ class GroupInvitationCell: UITableViewCell {
             iventorImageView.layer.cornerRadius = iventorImageView.frame.width / 2
         }
     }
-    
     @IBOutlet weak var acceptButton: UIButton! {
         didSet {
             acceptButton.layer.cornerRadius = 10
@@ -37,11 +37,11 @@ class GroupInvitationCell: UITableViewCell {
     
     var model: GroupInvitationCellModel = .emptyState {
         didSet {
-            iventImageView.image = model.iventImage
-            iventorImageView.image = model.invitorImage
+            iventImageView.sd_setImage(with: model.eventImageUrl, completed: nil)
+            iventorImageView.sd_setImage(with: model.invitorImageUrl, completed: nil)
             
-            iventNameLable.text = model.iventName
-            countOfParticipantsLable.text = model.countOfParticipants
+            iventNameLable.text = model.eventName
+            countOfParticipantsLable.text = String(model.countOfParticipants)
             iventorNameLable.text = model.invitorName
         }
     }

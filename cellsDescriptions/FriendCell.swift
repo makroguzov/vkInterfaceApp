@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FriendCell: UITableViewCell {
     @IBOutlet weak var friendImage: UIImageView! {
@@ -42,7 +43,7 @@ class FriendCell: UITableViewCell {
     
     var model: FriendsCellModel = .emptyState {
         didSet {
-            friendImage.image = model.image
+            friendImage.sd_setImage(with: model.imageUrl, completed: nil)
             friendName.text = model.name
             friendSubtitile.text = model.subtitle
         }

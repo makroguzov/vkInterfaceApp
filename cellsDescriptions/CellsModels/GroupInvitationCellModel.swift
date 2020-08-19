@@ -9,17 +9,25 @@
 import UIKit
 
 struct GroupInvitationCellModel {
-    var iventImage: UIImage
-    var invitorImage: UIImage
+    var eventImageUrl: URL?
+    var invitorImageUrl: URL?
     
-    var iventName: String
+    var eventName: String
     var countOfParticipants: String
     var invitorName: String
 
+    init(eventImage: String?, invitorImage: String?, eventName: String, countOfParticipants: String, invitorName: String) {
+        eventImageUrl = URL(string: eventImage ?? "")
+        invitorImageUrl = URL(string: invitorImage ?? "")
+        
+        self.eventName = eventName
+        self.invitorName = invitorName
+        self.countOfParticipants = countOfParticipants
+    }
 }
 
 extension GroupInvitationCellModel {
     static var emptyState: GroupInvitationCellModel {
-        return GroupInvitationCellModel(iventImage: UIImage(), invitorImage: UIImage(), iventName: "", countOfParticipants: "", invitorName: "")
+        return GroupInvitationCellModel(eventImage: "", invitorImage: "", eventName: "", countOfParticipants: "", invitorName: "")
     }
 }
