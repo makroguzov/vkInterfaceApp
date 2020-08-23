@@ -25,77 +25,70 @@ class MyGroupsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.beginUpdates()
-            
-        getInitData {
-            for i in 0..<self.cellGroupModels.count {
-                self.tableView.cellForRow(at: IndexPath(row: i, section: 1))
-            }
-            self.tableView.endUpdates()
-            self.tableView.reloadData()
-        }
+        getInitData()
     }
 }
 
 extension MyGroupsViewController {
-    func getInitData (reloadData: @escaping () -> Void) {
-        getGroups(count: 10)
-        getGroupsInvitations()
-        
-        reloadData()
+    func getInitData() {
+        getGroups(count: 100)
+        //loadUserGroupInvitations()
     }
+    
     func getGroups(count: Int){
-        NetworkService.shared.loadGroups(userId: Session.shared.userId, extended: 1, filter: "", fields: "", offset: offset, count: 10, closure: { (groups, totalCount) in
-            self.totalGroupsCount = totalCount
+        NetworkService.shared.loadUserGroups(userId: Session.shared.userId, extended: 1, filter: "", fields: "", offset: 0, count: count) { [weak self] (userGroupModel) in
+            guard let self = self else { return }
+            
+            self.tableView.beginUpdates()
+            
+            let totalGroupsCount = userGroupModel.response.count
+            let groups = userGroupModel.response.groups
+            
+            let numberOfRows = self.cellGroupModels.count
+            self.tableView.insertRows(at: Array(numberOfRows ..< numberOfRows + groups.count).map { IndexPath(row: $0, section: 1) }, with: .automatic)
+
             
             for group in groups {
-                let image: UIImage
-                
-                if let data = try? Data(contentsOf: group.photo_200) {
-                    image = UIImage(data: data)!
-                } else {
-                    image = UIImage()
-                }
-    
-                let groupCellModel = GroupCellModel(image: image, groupName: group.name, groupSubtitle: group.screen_name)
+                let groupCellModel = GroupCellModel(image: group.photo_200, groupName: group.name, groupSubtitle: group.screen_name)
                 self.cellGroupModels.append(groupCellModel)
             }
-            print(1)
-            self.getGroupsInvitations()
-        })
-        
-        offset += count
+            self.totalGroupsCount = totalGroupsCount
+
+            self.offset += count
+            
+            self.tableView.reloadData()
+            self.tableView.endUpdates()
+        }
     }
     
     func getFilteredGroups() {
         
     }
     
-    func getGroupsInvitations() {
-        NetworkService.shared.loadGroupsInvitations(offset: 0, count: 2, extended: 1) { events in
+    func loadUserGroupInvitations() {
+        NetworkService.shared.loadUserGroupInvitations(offset: 0, count: 2, extended: 1) { [weak self] (userGroupInvitationModel) in
+            guard let self = self else { return }
+            
+            self.tableView.beginUpdates()
+            
+            let events = userGroupInvitationModel.response.events
+            let invitorGroups: [Int: [GroupModel]] = Dictionary(grouping: userGroupInvitationModel.response.invitorGroups) { $0.id }
+            let invitorUsers: [Int: [UserModel]] =  Dictionary(grouping: userGroupInvitationModel.response.invitorUsers) { $0.id }
+        
             for event in events {
-                var photo_200: UIImage
-                var invitorImage: UIImage
-                
-                if let data = try? Data(contentsOf: event.photo_200) {
-                    photo_200 = UIImage(data: data)!
-                } else {
-                    photo_200 = UIImage()
+                if let invitor = invitorGroups[abs(event.is_advertiser)]{
+                    let invitor = invitor[0]
+                    let groupInvitationCell = GroupInvitationCellModel(eventImage: event.photo_200, invitorImage: "", eventName: event.name, countOfParticipants: "", invitorName: invitor.name)
+                    self.cellGroupInvitationModels.append(groupInvitationCell)
+                } else if let invitor = invitorUsers[event.is_advertiser] {
+                    let invitor = invitor[0]
+                    let groupInvitationCell = GroupInvitationCellModel(eventImage: event.photo_200, invitorImage: "", eventName: event.name, countOfParticipants: "", invitorName: invitor.last_name)
+                    self.cellGroupInvitationModels.append(groupInvitationCell)
                 }
-                
-                if let url = event.invitor.image, let data = try? Data(contentsOf: url) {
-                    invitorImage = UIImage(data: data)!
-                } else {
-                    invitorImage = UIImage()
-                }
-                
-                let groupInvitationCellModel = GroupInvitationCellModel(iventImage: photo_200, invitorImage: invitorImage, iventName: event.name, countOfParticipants: String(event.countOfParticipants), invitorName: event.invitor.name)
-                self.cellGroupInvitationModels.append(groupInvitationCellModel)
             }
-            print(2)
+            
             self.tableView.reloadData()
             self.tableView.endUpdates()
-     
         }
     }
 }
@@ -124,9 +117,6 @@ extension MyGroupsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        print(3)
-        
         switch indexPath.section {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell") as? GroupCell else {

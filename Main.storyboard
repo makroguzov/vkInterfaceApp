@@ -32,13 +32,61 @@
         <scene sceneID="2b3-5c-qNl">
             <objects>
                 <tableViewController id="VJx-tb-88V" customClass="MyFriendsViewController" customModule="vkInterfaceApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8hP-qy-uzL">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="8hP-qy-uzL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupFirstSectionCell" rowHeight="100" id="mVJ-b1-gdf" customClass="GroupFirstSectionCell" customModule="vkInterfaceApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="100"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mVJ-b1-gdf" id="7rD-2B-4j3">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JZp-nV-j7L">
+                                            <rect key="frame" x="40" y="21" width="334" height="58"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hw3-TG-CIR">
+                                                    <rect key="frame" x="0.0" y="0.0" width="334" height="24"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xY-A3-eDM">
+                                                            <rect key="frame" x="0.0" y="0.0" width="157" height="24"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <state key="normal" title="Сканировать QR">
+                                                                <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfB-ug-V6s">
+                                                            <rect key="frame" x="177" y="0.0" width="157" height="24"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <state key="normal" title="Добавить друга">
+                                                                <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9I-uh-Jvw">
+                                                    <rect key="frame" x="0.0" y="34" width="334" height="24"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                </view>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="JZp-nV-j7L" firstAttribute="top" secondItem="7rD-2B-4j3" secondAttribute="topMargin" constant="10" id="2lS-oj-X2j"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="JZp-nV-j7L" secondAttribute="bottom" constant="10" id="3Ut-wl-4Gw"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="JZp-nV-j7L" secondAttribute="trailing" constant="20" id="AXx-0I-0iX"/>
+                                        <constraint firstItem="JZp-nV-j7L" firstAttribute="leading" secondItem="7rD-2B-4j3" secondAttribute="leadingMargin" constant="20" id="tgh-jc-8Jq"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addFriendButton" destination="rfB-ug-V6s" id="8T5-mH-XVm"/>
+                                    <outlet property="scanCodeButton" destination="0xY-A3-eDM" id="fTA-cz-YcX"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="60" id="cbY-lN-p6z" customClass="FriendCell" customModule="vkInterfaceApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="155.5" width="414" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cbY-lN-p6z" id="sJ0-dJ-b7I" customClass="FriendCell" customModule="vkInterfaceApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
